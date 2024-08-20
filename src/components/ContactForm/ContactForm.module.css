@@ -1,0 +1,45 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  align-items: center;
+  width: 320px;
+  padding: 10px;
+  padding-bottom: 15px;
+  background-color:antiquewhite;
+  border: 2px solid cornflowerblue;
+  border-radius: 6px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  font-size: 500;
+}
+.field {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 2px solid cornflowerblue;
+  border-radius: 4px;
+  padding: 5px;
+ 
+  font-style: italic;
+}
+.label {
+  color: cornflowerblue;
+  font-weight: 700;
+}
+
+.button {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  width: 200px;
+  font-weight: 700;
+  color:antiquewhite;
+  background-color:cornflowerblue;
+  padding: 10px;
+}
+.error {
+  color: red;
+}

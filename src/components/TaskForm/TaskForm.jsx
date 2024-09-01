@@ -1,15 +1,20 @@
-import { useDispatch } from 'react-redux';
-import { Button } from '../Button/Button';
-import { addTask } from '../../redux/operations';
-import css from './TaskForm.module.css';
+import { useDispatch } from "react-redux";
+import { Button } from "../Button/Button";
+import { addTask } from "../../redux/operations";
+import css from "./TaskForm.module.css";
 
-export const TaskForm = () => {
+const TaskForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    dispatch(addTask(event.target.elements.text.value));
+    dispatch(addTask(form.elements.text.value))
+      .unwrap()
+      .then(() => {
+        console.log("addTask fulfilled");
+      })
+      .catch();
     form.reset();
   };
 
@@ -25,3 +30,5 @@ export const TaskForm = () => {
     </form>
   );
 };
+
+export default TaskForm;

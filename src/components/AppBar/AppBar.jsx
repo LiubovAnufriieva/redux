@@ -2,7 +2,7 @@ import { StatusFilter } from '../StatusFilter/StatusFilter';
 import { TaskCounter } from '../TaskCounter/TaskCounter';
 import css from './AppBar.module.css';
 
-export const AppBar = () => {
+const AppBar = () => {
   return (
     <header className={css.wrapper}>
       <section className={css.section}>
@@ -16,3 +16,5 @@ export const AppBar = () => {
     </header>
   );
 };
+
+export default AppBar;

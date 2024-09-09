@@ -1,43 +1,61 @@
+import { useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import Layout from "./Layout/Layout";
-import AppBar from "./AppBar/AppBar";
-import Error from "./Error/Error";
-import TaskForm from "./TaskForm/TaskForm";
-import TaskList from "./TaskList/TaskList";
-import { fetchTasks } from "../redux/operations";
-import { selectError, selectIsLoading } from "../redux/selectors";
-import toast, { Toaster } from "react-hot-toast";
-import Loader from "./Loader/Loader";
+import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Layout from "./Layout";
+import { PrivateRoute } from "./PrivateRoute";
+import { RestrictedRoute } from "./RestrictedRoute";
+import { refreshUser } from "../redux/auth/operations";
+import { selectRefreshing } from "../redux/auth/selectors";
+
+const HomePage = lazy(() => import("../pages/HomePage"));
+const RegisterPage = lazy(() => import("../pages/RegisterPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const TasksPage = lazy(() => import("../pages/TasksPage"));
 
 export default function App() {
   const dispatch = useDispatch();
-  const loading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  const isRefreshing = useSelector(selectRefreshing);
 
   useEffect(() => {
-    dispatch(fetchTasks())
-      .unwrap()
-      .then((value) => {
-        console.log(value);
-
-        toast.success("fetchTasks fullfilled");
-      })
-      .catch((err) => {
-        console.log(err);
-
-        toast.error("fetchTasks rejected");
-      });
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
     <Layout>
-      <h1>HTTP requests with Redux</h1>
-      <AppBar />
-      <TaskForm />
-      {error && <Error />}
-      {loading && !error && <Loader>Loading message</Loader>}
-      <TaskList />
+      {isRefreshing ? (
+        <b>Refreshing user, please wait...</b>
+      ) : (
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute
+                  redirectTo="/tasks"
+                  component={<RegisterPage />}
+                />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute
+                  redirectTo="/tasks"
+                  component={<LoginPage />}
+                />
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <PrivateRoute redirectTo="/login" component={<TasksPage />} />
+              }
+            />
+          </Routes>
+        </Suspense>
+      )}
       <Toaster />
     </Layout>
   );

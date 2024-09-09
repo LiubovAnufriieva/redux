@@ -1,25 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://62584f320c918296a49543e7.mockapi.io';
-
+// GET @ /tasks
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('/tasks');
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
+      const res = await axios.get('/tasks');
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
+// POST @ /tasks
 export const addTask = createAsyncThunk(
   'tasks/addTask',
-  async (newTask, thunkAPI) => {
+  async (text, thunkAPI) => {
     try {
-      const response = await axios.post('/tasks', { newTask });
+      const response = await axios.post('/tasks', { text });
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
@@ -27,6 +27,7 @@ export const addTask = createAsyncThunk(
   }
 );
 
+// DELETE @ /tasks/:id
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
   async (taskId, thunkAPI) => {
@@ -39,19 +40,20 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
-export const toggleCompleted = createAsyncThunk(
-  'tasks/toggleCompleted',
-  async (task, thunkAPI) => {
-    try {
-      const response = await axios.put(`/tasks/${task.id}`, {
-        completed: !task.completed,
-      });
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  }
-);
+
+// export const toggleCompleted = createAsyncThunk(
+//   'tasks/toggleCompleted',
+//   async (task, thunkAPI) => {
+//     try {
+//       const response = await axios.put(`/tasks/${task.id}`, {
+//         completed: !task.completed,
+//       });
+//       return response.data;
+//     } catch (e) {
+//       return thunkAPI.rejectWithValue(e.message);
+//     }
+//   }
+// );
 
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",

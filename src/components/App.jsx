@@ -2,11 +2,12 @@ import { useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Layout from "./Layout";
+import Layout from "./Layout/Layout";
 import { PrivateRoute } from "./PrivateRoute";
 import { RestrictedRoute } from "./RestrictedRoute";
 import { refreshUser } from "../redux/auth/operations";
-import { selectRefreshing } from "../redux/auth/selectors";
+import { selectIsRefreshing } from "../redux/auth/selectors";
+import css from "./App.module.css";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
@@ -15,7 +16,7 @@ const TasksPage = lazy(() => import("../pages/TasksPage"));
 
 export default function App() {
   const dispatch = useDispatch();
-  const isRefreshing = useSelector(selectRefreshing);
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refreshUser());
@@ -24,7 +25,7 @@ export default function App() {
   return (
     <Layout>
       {isRefreshing ? (
-        <b>Refreshing user, please wait...</b>
+        <div className={css.text}>Refreshing user, please wait...</div>
       ) : (
         <Suspense fallback={null}>
           <Routes>
@@ -33,8 +34,8 @@ export default function App() {
               path="/register"
               element={
                 <RestrictedRoute
-                  redirectTo="/tasks"
-                  component={<RegisterPage />}
+                component={<RegisterPage />}
+                redirectTo="/tasks"
                 />
               }
             />

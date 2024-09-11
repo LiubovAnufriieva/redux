@@ -1,6 +1,6 @@
 import css from "./Layout.module.css";
 import { Toaster } from "react-hot-toast";
-import { AppBar } from "./AppBar/AppBar";
+import AppBar from "../AppBar/AppBar";
 
 const Layout = ({ children }) => {
   return (

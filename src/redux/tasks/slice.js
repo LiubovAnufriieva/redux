@@ -9,7 +9,7 @@ const handlePending = (state) => {
 
 const handleRejected = (state, action) => {
   state.loading = false;
-  state.error = action.error.message;
+  state.error = action.payload;
 };
 
 const tasksSlice = createSlice({
@@ -24,13 +24,15 @@ const tasksSlice = createSlice({
       .addCase(fetchTasks.pending, handlePending)
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.loading = false;
-        (state.error = null), (state.items = action.payload);
+        state.error = null; 
+        state.items = action.payload;
       })
       .addCase(fetchTasks.rejected, handleRejected)
       .addCase(addTask.pending, handlePending)
       .addCase(addTask.fulfilled, (state, action) => {
         state.loading = false;
-        (state.error = null), state.items.push(action.payload);
+        state.error = null;
+        state.items.push(action.payload);
       })
       .addCase(addTask.rejected, handleRejected)
       .addCase(deleteTask.pending, handlePending)
@@ -54,4 +56,4 @@ const tasksSlice = createSlice({
   },
 });
 
-export const tasksReducer = tasksSlice.reducer;
+export  const tasksReducer = tasksSlice.reducer;

@@ -7,22 +7,20 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    
-
     dispatch(register(values));
     actions.resetForm();
   };
 
   return (
     <Formik
-    initialValues={{
-      name: "",
-      email: "",
-      password: "",
-    }}
-    onSubmit={handleSubmit}
+      initialValues={{
+        name: "",
+        email: "",
+        password: "",
+      }}
+      onSubmit={handleSubmit}
     >
-      <Form className={css.form}  autoComplete="off">
+      <Form className={css.form} autoComplete="off">
         <label className={css.label}>
           Username
           <Field type="text" name="name" />

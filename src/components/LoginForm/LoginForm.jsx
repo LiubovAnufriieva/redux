@@ -7,18 +7,18 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-   dispatch(logIn(values));
-   actions.resetForm();  
+    dispatch(logIn(values));
+    actions.resetForm();
   };
   return (
     <Formik
-    initialValues={{
-      email: "",
-      password: "",
-    }}
-    onSubmit={handleSubmit}
+      initialValues={{
+        email: "",
+        password: "",
+      }}
+      onSubmit={handleSubmit}
     >
-      <Form className={css.form}  autoComplete="off">
+      <Form className={css.form} autoComplete="off">
         <label className={css.label}>
           Email
           <Field type="email" name="email" />
